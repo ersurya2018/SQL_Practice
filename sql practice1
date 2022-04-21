@@ -1,0 +1,67 @@
+
+
+
+create database emp
+use emp
+create table emp_detail2(id int primary key identity(101,1),f_name varchar(20),l_name varchar(30),salary money,dept varchar(23),gender varchar(20))
+insert into emp_detail2 values
+('shweta','sharma',200000,'IT','female'),
+('mohan','sharma',200,'IT','male'),
+('vimal','singh',30000,'HR','male'),
+('chhavi','raj',45000,'IT','male'),
+('shuvam','sharma',600000,'HR','male'),
+('sonu','roy',850000,'IT','male'),
+('suraj','pathak',600000,'IT','male')
+select*from emp_detail2
+select*from emp_detail2 where salary<10000
+
+select*from emp_detail2 where salary>=9000 and salary<15000
+
+insert into emp_detail2 values ('mohan','sharma',10000,'IT','male')
+
+
+select*from emp_detail2 where salary NOT BETWEEN 9000 and 15000
+
+select f_name  from emp_detail2 where f_name like 's%'
+
+
+select f_name  from emp_detail2 where f_name like '%s'
+
+select f_name  from emp_detail2 where f_name like '%s%'
+
+select f_name  from emp_detail2 where f_name like '____'
+
+
+select f_name  from emp_detail2 where f_name like 's%' and salary>9000
+
+select * from emp_detail2
+
+select salary  from emp_detail2 where salary>(select salary from emp_detail2 where id=107)
+
+select *  from emp_detail2 where id like '1%1'
+
+update emp_detail2 set dept=10 where id=101
+
+update emp_detail2 set dept=10 where id=103
+
+update emp_detail2 set dept=10 where id=107
+
+select * from emp_detail2
+
+update emp_detail2 set dept=20 where dept='HR'
+
+update emp_detail2 set dept=20 where dept='IT'
+
+update emp_detail2 set salary=8500 where dept between 10 and 20
+
+
+select * from emp_detail2
+update emp_detail2 set salary=15000 where f_name like '%u' and dept=20
+
+update emp_detail2 set salary=5500 where id like '%4' and dept like '2%'
+
+update emp_detail2 set salary=25000 where salary<10000 and f_name like '%a%' and dept=20
+
+update emp_detail2 set salary=10000 where salary>=8500 and salary<=9000
+
+select * from emp_detail2
