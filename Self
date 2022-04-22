@@ -1,0 +1,54 @@
+
+
+create table employee
+(
+id int identity primary key,
+salary int
+);
+
+insert into employee values(23),(24),(54),(43),(98),(90),(88)
+
+insert employee values(10,34),(9,80)
+
+BEGIN TRANSACTION 
+delete from employee where id=2
+
+select * from employee
+
+
+truncate table employee
+rollback
+BEGIN TRANSACTION 
+delete from employee 
+
+
+select * from employee
+
+
+
+BEGIN TRANSACTION 
+delete from employee where id=1
+commit
+rollback
+BEGIN TRANSACTION 
+drop table employee
+
+
+
+BEGIN TRANSACTION 
+truncate table employee
+
+select * from employee
+rollback
+
+drop table employee
+
+select * from employee
+delete from employee 
+
+truncate table employee
+
+
+BEGIN TRANSACTION 
+drop table employee
+rollback
