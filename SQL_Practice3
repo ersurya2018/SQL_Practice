@@ -1,0 +1,26 @@
+
+
+use TAJSMS
+
+--Select all the employee group by deptno and sal in descending order.
+select * from employee
+
+select dept,salary from employee group by dept,salary order by  salary desc 
+
+--How can I create an empty table emp1 with same structure as emp?
+
+select * into Emp1 from employee where 1=0
+
+select *from Emp1
+select * from employee
+
+--How to retrive record where sal between 1000 to 2000?
+select * from employee where salary between 1000 and 2000
+
+--Select all records where dept no of both emp and dept table matches.
+insert into Emp1 values('hii','hii@gmail.com',10000,10),('rohit','rohit@gmail.com',2000,20),
+('golu','golu@gmail.com',40000,10),('molu','molu@gmail.com',40000,20),('aman','aman@gmail.com',9000,30)
+
+select * from employee inner join Emp1 on employee.dept=Emp1.dept
+
+--
