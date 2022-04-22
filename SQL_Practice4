@@ -1,0 +1,52 @@
+
+
+select * from employee
+use TAJSMS
+select * into emp3 from employee where 1=0 
+select * from emp3
+sp_rename 'EMP3.DEPTNO', 'deptno';
+
+insert into emp3 values ('BLAKE',2000,10),
+('SCOTT',3000,20),
+('KING',3500,30),
+('FORD',4000,40),
+('SONY',5000,50)
+
+ALTER TABLE EMP3 ADD  job varchar(15)
+
+update emp3 set job='SALESMAN' where id>3
+
+update emp3 set job='CLERK' where id<3
+
+update emp3 set job='HR' where id=3
+
+select * from emp3
+--Suppose there is annual salary information provided by emp table. How to 
+--fetch monthly salary of each and every employee
+select id,name,salary/12 as mounth_salary,deptno,job from emp3 
+
+--Select all record from emp table where deptno =10 or 40.
+select * from emp3 where deptno=10 or deptno=40 
+
+--select all record from emp table where deptno=30 and sal>1500.
+select * from emp3 where deptno=30 and salary>1500
+
+--Select all record from emp where job not in SALESMAN or CLERK.
+select * from emp3 where job!='SALESMAN' and job!='CLERK'
+
+--Select all record from emp where ename in 
+--'BLAKE','SCOTT','KING'and'FORD'.
+
+select name from emp3 where name='BLAKE' or name='SCOTT' or name='KING' or name='FORD'
+
+-- Select all records where ename starts with ‘S’ and its lenth is 6 char
+select name from emp3 where name like 'S____'
+select * from emp3
+
+--Select all records where ename may be any no of character but it should 
+--end with ‘R’.
+
+select * from emp3 where name like '%Y'
+
+--.Select any salary <3000 from emp table
+select * from emp3 where salary<3000
