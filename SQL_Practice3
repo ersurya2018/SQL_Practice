@@ -23,4 +23,23 @@ insert into Emp1 values('hii','hii@gmail.com',10000,10),('rohit','rohit@gmail.co
 
 select * from employee inner join Emp1 on employee.dept=Emp1.dept
 
---
+
+create table employee
+(
+id int primary key identity,
+name varchar(30),
+salary int,
+dept varchar(10)
+);
+
+insert into employee(name,salary,dept) values('coder',1200,'HR'),('asha',2300,'HR'),
+('mohan',8900,'dev'),('rohit',9000,'dev')
+
+--Using Aggregate functions: Count,Min,Max,Sum,Avg
+select count(salary) from employee;
+
+select min(salary) from employee
+
+select max(salary) from employee
+select sum(salary) from employee
+select avg(salary) from employee
