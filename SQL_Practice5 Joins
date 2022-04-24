@@ -1,0 +1,98 @@
+
+
+
+use tajsms
+
+select * from Emp1
+
+select * from employee
+
+create table  EmployeeDetail
+(
+EmployeeID int primary key identity,
+FirstName varchar(50),
+LastName varchar(50),
+Salary int,
+JoiningDate datetime,
+Department varchar(20),
+Gender varchar(6)
+);
+
+select * from [dbo].[EmployeeDetail]
+
+insert into EmployeeDetail(FirstName,LastName,Salary,JoiningDate,Department,Gender)
+values ('nikita','jain',530000,'2014-01-09 17:21:07:793','HR','Female'),
+('Ashish','Kumar',1000000,'2014-01-09 10:05:07:793','IT','Male'),
+('Nikhi','Sharma',480000,'2014-01-09 09:00:07:793','HR','Male'),
+('Anish','Kumar',500000,'2014-01-09 09:31:07:793','Payroll','Male'),
+('vikas','yadav',600000,'2013-02-15','IT','Male')
+
+
+--Get all employee detail from EmployeeDetail table whose "FirstName" not start with any single character between 'a-p'
+select * from [EmployeeDetail] where FirstName like '[^a-p]%'
+
+--Get all employee detail from EmployeeDetail table whose "Gender" end with 'le' 
+--and contain 4 letters. The Underscore(_) Wildcard Character represents any single character
+SELECT * FROM EmployeeDetail WHERE Gender like '__le'
+
+--- Get all employee detail from EmployeeDetail table whose "FirstName" start with 'A' and contain 5 letters.
+SELECT * FROM EmployeeDetail WHERE FirstName like 'A____'
+--Get all employee detail from EmployeeDetail table whose "FirstName" containing '%'. ex:-"Vik%as"
+SELECT * FROM EmployeeDetail WHERE FirstName like '%[%]%'
+
+--Get all unique "Department" from EmployeeDetail table
+select DISTINCT department from EmployeeDetail
+
+--- Get the highest "Salary" from EmployeeDetail table.
+SELECT MAX(Salary) FROM EmployeeDetail
+--Get the lowest "Salary" from EmployeeDetail table.
+SELECT MIN(Salary) FROM EmployeeDetail
+--Show "JoiningDate" in "dd mmm yyyy" format, ex- "15 Feb 2013"
+SELECT CONVERT(VARCHAR(20),JoiningDate,106) FROM EmployeeDetail
+
+--Show "JoiningDate" in "yyyy/mm/dd" format, ex- "2013/02/15"
+SELECT CONVERT(VARCHAR(20),JoiningDate,111) FROM EmployeeDetail
+
+--Show only time part of the "JoiningDate".
+SELECT CONVERT(VARCHAR(20),JoiningDate,108) FROM EmployeeDetail
+--
+
+
+
+use TAJSMS
+create table ProjectDetail
+(
+ProjectDetailID int primary key identity,
+EmployeeDetailID int not null,
+ProjectName varchar(50)
+);
+
+
+insert into ProjectDetail(EmployeeDetailID,ProjectName) 
+values(1,'Task Track'),
+(1,'CLP'),
+(1,'Survey Management'),
+(2,'HR Management'),
+(3,'Task Track'),
+(3,'GRS'),(3,'DDS'),
+(4,'HR Management'),
+(6,'GL Management')
+
+
+
+
+select * from ProjectDetail
+select * from [dbo].[EmployeeDetail]
+
+select firstName+' '+LastName,ProjectName from EmployeeDetail inner join ProjectDetail on ProjectDetail.EmployeeDetailID=EmployeeDetail.EmployeeID
+
+
+select firstName+' '+LastName,ProjectName from EmployeeDetail left outer join ProjectDetail on ProjectDetail.EmployeeDetailID=EmployeeDetail.EmployeeID order by EmployeeDetail.FirstName
+ISNULL(ProjectName,'-No Project Assigned')
+
+select firstName+' '+LastName,ProjectName from EmployeeDetail FULL outer join ProjectDetail on ProjectDetail.EmployeeDetailID=EmployeeDetail.EmployeeID order by EmployeeDetail.FirstName
+
+
+
+
+
