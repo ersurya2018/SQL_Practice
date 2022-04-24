@@ -1,6 +1,3 @@
-
-
-
 use tajsms
 
 select * from Emp1
@@ -93,6 +90,11 @@ ISNULL(ProjectName,'-No Project Assigned')
 select firstName+' '+LastName,ProjectName from EmployeeDetail FULL outer join ProjectDetail on ProjectDetail.EmployeeDetailID=EmployeeDetail.EmployeeID order by EmployeeDetail.FirstName
 
 
+select * into EMP2 from ProjectDetail
+drop  table emp2
+select * from emp2
 
+
+select distinct * from EmployeeDetail inner join ProjectDetail on EmployeeDetail.EmployeeID=ProjectDetail.EmployeeDetailID inner join emp2 on emp2.EmployeeDetailID=ProjectDetail.EmployeeDetailID
 
 
