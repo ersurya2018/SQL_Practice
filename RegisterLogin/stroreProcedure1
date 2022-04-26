@@ -1,0 +1,93 @@
+
+
+ 
+  use TAJSMS
+
+select * from UserTbl
+
+
+create proc sp_Show_UserTbl
+as
+begin
+	select* from UserTbl
+end
+
+drop proc sp_Show_UserTble
+sp_Show_UserTbl
+
+sp_Create_User 'mohan','kumar',2300,'HR','male'
+
+sp_Create_User 
+	@action='update',
+	
+	@email='aditya2222@gmail.com',
+	
+	@id=11
+sp_Create_User 
+	@action='update',
+	@email='ramesh@gmail.com',
+	@salary=90000,
+	@department='hr',
+	@id=9
+
+sp_Create_User @action='delete',@id=11
+
+--Here we create the Store Procedure for Insert/Update/Delete in one Procedure
+----------------------------------------------------------------------------------------
+alter proc sp_Create_User
+@action varchar(50),
+@id int=0,
+@FName varchar(100)=null,
+@LName varchar(100)=null,
+@email varchar(50)=null,
+@Salary int=null,
+@Department varchar(20)=null,
+@gender varchar(20)=null
+as
+begin
+	if @action='insert'
+		begin
+			declare @row int;
+			set @row=(select count(User_Email) from UserTbl where User_Email=@email )
+			--print @row
+				if @row=0
+					begin
+						insert into 
+						UserTbl(FirstName,
+						LastName,
+						User_Email,
+						Salary,
+						Department,
+						Gender) 
+						values(@FName,
+						@LName,
+						@email,
+						@Salary,
+						@Department,
+						@gender);
+						print 'inserted'
+					end
+					else
+						begin
+							print 'not inserted/duplicate email'
+						end
+			end
+		else if @action='update'
+				begin
+					update userTbl set 
+						FirstName=ISNULL(@FName,FirstName),
+						LastName=ISNULL(@LName,LastName),
+						User_Email=ISNULL(@email,User_Email),
+						Salary=ISNULL(@Salary,Salary),
+						Department=ISNULL(@Department,Department),
+						Gender=ISNULL(@gender,Gender) 
+						from UserTbl
+						where EmployeeID=@id
+						print 'Updated'	
+				end
+				else if @action='delete'
+					begin
+						delete from UserTbl where EmployeeID=@id or User_Email=@email
+						print 'deleted'
+					end
+end
