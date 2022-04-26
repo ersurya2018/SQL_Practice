@@ -1,0 +1,223 @@
+
+
+
+CREATE DATABASE TAJSMS
+use TAJSMS
+CREATE TABLE Tbl_Users
+(
+Tbl_User_Id int primary key identity,
+Fname varchar(100),
+Lname varchar(100),
+Email varchar(100),
+Mobile int,
+Gender varchar(20),
+Isverified int
+);
+
+CREATE TABLE authentication
+(
+Auth_Id int primary key identity(100,5),
+Email varchar(100) unique,
+Password varchar(50),
+Tbl_User_Id int foreign key references Tbl_Users(Tbl_User_Id)
+);
+
+CREATE TABLE Tbl_User_Address
+(
+Address_Id int primary key identity(110,5),
+House_no int,
+street varchar(100),
+City varchar(100),
+Pin_Code int,
+Tbl_User_Id int foreign key references Tbl_Users(Tbl_User_Id)
+);
+
+select * from [dbo].[Tbl_Users]
+select * from [dbo].[authentication]
+select * from [dbo].[Tbl_User_Address]
+
+
+truncate table Tbl_Users
+
+truncate table authentication
+
+truncate table Tbl_User_Address
+
+sp_help authentication
+--here we drop the forgien key
+ALTER TABLE authentication DROP CONSTRAINT FK__authentic__Tbl_U__398D8EEE;
+
+--here we add the forgien key
+ALTER TABLE authentication
+ADD FOREIGN KEY (Tbl_User_Id) REFERENCES Tbl_Users(Tbl_User_Id);
+
+--here we add again forgien key
+ALTER TABLE Tbl_User_Address
+ADD FOREIGN KEY (Tbl_User_Id) REFERENCES Tbl_Users(Tbl_User_Id);
+
+--here we check about the table
+sp_help Tbl_User_Address
+sp_help authentication
+
+
+
+Register_User 
+@Fname='Shweta',
+@Lname='Sharma',
+@Email='Shweta@gmail.com',
+@password='Shweta@1234',
+@mobile=7896547,
+@Gender='Female',
+@House_no=985,
+@street='Z43',
+@City='Noida 62',
+@Pin_Code='25935'
+
+
+
+
+alter PROC Register_User
+@Fname varchar(100)=null,
+@Lname varchar(100)=null,
+@Email varchar(100)=null,
+@Password varchar(50)=null,
+@Mobile int=null,
+@Gender varchar(20)=null,
+@Isverified int=0,
+@House_no int=null,
+@street varchar(100)=null,
+@City varchar(100)=null,
+@Pin_Code int=null
+As
+declare @User_Id int;
+declare @row int;
+	Begin
+	--here the start insert data in tbl_user 
+		set @row=(select count(email) from Tbl_Users where Email=@Email);
+		--print @row;
+		--here we check the Email 
+		if @row=0
+		begin
+			insert into 
+			Tbl_Users(Fname,
+			Lname,
+			Email,
+			Mobile,
+			Gender,
+			Isverified) 
+			values(@Fname,
+			@Lname,
+			@Email,
+			@Mobile,
+			@Gender,
+			@Isverified
+			)
+			--here we get identity id after insert the data
+			set @User_Id=(SELECT @@IDENTITY)
+			--print @User_Id
+		end;
+		--here we write else block of email check
+		else
+			begin
+				print 'data not inserted/Email Duplicate';
+			end;
+	end;
+	--here we check the condition for not insert duplicate data
+	if @row=0
+	begin
+	--again insert the data in authentication table by using foreign key
+		begin
+		
+			insert into 
+			authentication(Email,
+			Password,
+			Tbl_User_Id) 
+			values(@Email,
+			@Password,
+			@User_Id)
+		end;
+		begin
+		--again insert the data in Tbl_User_Address table by using foreign key
+			insert into
+			Tbl_User_Address(House_no,
+			street,
+			City,
+			Pin_Code,
+			Tbl_User_Id) 
+			values(@House_no,
+			@street,
+			@City,
+			@Pin_Code,
+			@User_Id)
+		end;
+	end;
+	--again here we check else condition for Tbl_User_Address
+	else
+		begin
+			print 'data note inserted because primary key is null'
+		end;
+	
+
+delete from Tbl_Users where Fname='lavi'
+
+----------------------------------------------------------------------------------------
+
+
+Register_User 
+@Fname='Shweta',
+@Lname='Sharma',
+@Email='Shweta@gmail.com',
+@password='Shweta@1234',
+@mobile=7896547,
+@Gender='Female',
+@House_no=985,
+@street='Z43',
+@City='Noida 62',
+@Pin_Code='25935'
+
+select * from [dbo].[Tbl_Users]
+select * from [dbo].[authentication]
+select * from [dbo].[Tbl_User_Address]
+
+update Tbl_Users set IsVerified=1 where Tbl_User_Id=3
+
+
+
+
+--*****************************************************--------
+--here we make second StoreProcedure for UserLogin
+alter proc User_login
+@email varchar(90),
+@password varchar(100)
+AS
+	begin
+	declare @num int;
+	--here we check the email and password match both
+	if exists(select * from authentication where email=@email and Password=@Password)
+		Begin
+		--if match the again check user Isverified or not , if Isverified then login or not
+			set @num=(select Isverified from Tbl_Users where email=@email)
+			if @num=1
+				begin
+					print 'login'
+				end
+			else
+					begin
+						print 'not login because user not Isverified'
+					end
+			--print @num;
+			
+		End;
+	else
+	--print message Email/Password not match
+	begin
+		print 'Email/Password not match'
+	end;
+end;
+
+User_login @Email='Shweta@gmail.com',@password='Shweta@1234'
+User_login @Email='Radhika@gmail.com',@password='Radhika@1234'
+
+Tbl_Users
+
+Isverified
